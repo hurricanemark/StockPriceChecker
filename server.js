@@ -10,6 +10,34 @@ const runner            = require('./test-runner');
 
 const app = express();
 
+const helmet = require('helmet');
+const ninetyDaysInSeconds = 90*24*60*60;
+/* parent helmet */
+app.use(helmet({
+  hidePoweredBy: { },
+  frameguard: {        //configure
+    action: "deny" 
+  },
+  xssFilter: { setOnOldIE: true },
+
+  hsts: {
+    maxAge: ninetyDaysInSeconds,
+    preload: true,
+  },
+  dnsPrefetchControl: {
+    allow: false,
+  },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", 'trusted-cdn.com'],
+      styleSrc: ["'self'", 'trusted-cdn.com'],
+    },
+  },
+ 
+}));
+
+
 app.use('/public', express.static(process.cwd() + '/public'));
 
 app.use(cors({origin: '*'})); //For FCC testing purposes only
