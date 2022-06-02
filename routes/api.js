@@ -9,9 +9,11 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 //const URI = "https://stock-price-checker-proxy.freecodecamp.rocks/v1/stock/${stock}/quote";
 
 async function fetchStock(stock) {
-  const URI = "https://stock-price-checker-proxy.freecodecamp.rocks/v1/stock/${stock}/quote";
+  const URI = `https://stock-price-checker-proxy.freecodecamp.rocks/v1/stock/${ stock }/quote`;
+  console.log(URI);
   const response = await fetch(URI);
   const { symbol, latestPrice } = await response.json();
+  
   return { symbol, latestPrice};
 }
 
@@ -20,21 +22,31 @@ async function createStock(stock, like, ip) {
     symbol : stock,
     likes : like ? [ip] : [],
   });
-  const saveStock = await newStock.save();
-  return saveStock;
+  
+  try { 
+    return await newStock.save();
+  } catch(err) { console.log(err); }
 }
 
 async function findStock(stock) {
-  return await StockModel.findOne({ symbol : stock }).exec();
+  try {
+    return await StockModel.findOne({ symbol: stock }).exec();
+  } catch(err) { console.log(err); }
 }
 
 async function saveStock(stock, like, ip) {
-  let record = [];
+  let record = {};
   const foundStock = await findStock(stock);
+  console.log("Found Stock: ", foundStock);
   if (!foundStock) {
-    const createRecord = await createStock(stock, like, ip);
-    record = createRecord;
-    return record;
+    try {
+      const createRecord = await createStock(stock, like, ip);
+      record = createRecord;
+      console.log(record);
+      return record;
+    } catch(err) { console.log(err); }
+  } else {
+    return foundStock;
   }
 }
 /*------------------------------------*/
@@ -44,25 +56,97 @@ module.exports = function (app) {
   app.route('/api/stock-prices')
     .get(async function (req, res){
       const { stock, like } = req.query;
-      const { symbol, latestPrice } = await fetchStock(stock);
+      console.log(stock, like);
+      const ip = req.ip;
       
-      if (!symbol) {
-        res.json({ stockData: { likes: like ? 1 : 0 }});
+      // console.log(type(like));
+      // console.log(type(ip));
+      if (Array.isArray(stock)) {
+        /* Compare likes between two stock symbols */
+        console.log("AHHHHHHH   RAYYYYYY");
+        let stockData = [];
+        const { symbol, latestPrice } = await fetchStock(stock[0]);
+        const { symbol: symbolx, latestPrice: latestPricex } = await fetchStock(stock[1]);
+
+        const record = await saveStock(stock[0], like, ip);
+        const recordx = await saveStock(stock[1], like, ip);
+        
+        // let stockData = [];
+        if (!symbol) {
+          stockData.push({
+            symbol : '',
+            price : 0,
+            rel_likes : record.likes.length - recordx.likes.length,
+          });
+        } else {
+          stockData.push({
+            stock : symbol.toString(),
+            price : parseInt(latestPrice),
+            rel_likes : record.likes.length - recordx.likes.length,
+          });
+        }
+
+        if (!symbolx) {
+          stockData.push({
+            symbol : '',
+            price : 0,
+            rel_likes : recordx.likes.length - record.likes.length,
+          });
+        } else {
+          stockData.push({
+            stock : symbolx.toString(),
+            price : parseInt(latestPricex),
+            rel_likes : recordx.likes.length - record.likes.length,
+          });
+        }
+        res.json({
+          stockData});
         return;
       }
+      // if (Array.isArray(stock)) {
+      //   const stockData = [];
+      //   for (let i = 0; i < stock.length; i++) {
+      //     const stockRecord = await fetchStock(stock[i]);
+      //     stockData.push(stockRecord);
+      //   }
+      //   console.log(stockData);
+      //   res.json({stockData});
+      // }
 
-      /* valid data? let's save */
-      const aStockData = await saveStock(symbol, like, req.ip);
-      console.log("Stock Data: ", aStockData);
 
-      /* return GET */
-      res.json({
-        stock : symbol,
-        price : latestPrice,
-        likes : aStockDatalikes.length,
-      });
-  
+      try {
+        const { symbol, latestPrice } = await fetchStock(stock);
       
-    })
-    
+        console.log("stock:", stock, " Symbol: ", symbol, " Price: ", latestPrice);
+
+        if (!symbol) {
+          res.json({ 
+            stockData: { 
+              symbol : '',
+              price : 0,
+              likes: like ? 1 : 0 
+            }
+          });
+          return;
+        }
+
+
+        /* valid data? let's save */
+        try {
+          const aStockData = await saveStock(symbol, like, req.ip);
+
+          console.log("Stock Data: ", symbol, latestPrice);
+
+          /* return GET */
+          res.json({
+            stock : symbol.toString(),
+            price : parseInt(latestPrice),
+            likes : parseInt(aStockData.likes.length),
+          })
+        } catch(err) { console.log(err); }
+
+      } catch(err) {
+        console.log(err)
+      }
+    });  
 };
