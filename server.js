@@ -10,6 +10,13 @@ const runner            = require('./test-runner');
 
 const app = express();
 
+const mongoose = require('mongoose');
+const db = mongoose.connect(process.env.MONGO_URI, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
+
+
 const helmet = require('helmet');
 const ninetyDaysInSeconds = 90*24*60*60;
 /* parent helmet */

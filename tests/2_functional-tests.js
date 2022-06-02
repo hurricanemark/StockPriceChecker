@@ -18,6 +18,7 @@ suite('Functional Tests', function() {
                 assert.property(res.body.stockData, 'price');
                 assert.property(res.body.stockData, 'likes');
                 done();
+                console.log(res.body.stockData);
             });
         });
         test('1 stock with like', function(done) {
