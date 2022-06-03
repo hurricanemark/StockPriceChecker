@@ -51,6 +51,12 @@ suite('Functional Tests', function() {
             chai.request(server)
             .get('/api/stock-prices')
             .query({stock: ['tsla', 'nvda']})
+            .end(function(err, res){
+                assert.equal(res.status, 200);
+                assert.property(res.body.stockData[0], 'price');
+                assert.property(res.body.stockData[0], 'rel_likes');
+                done();
+            });
         });
     });
 });
