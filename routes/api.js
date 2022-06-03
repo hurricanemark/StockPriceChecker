@@ -49,6 +49,9 @@ async function saveStock(stock, like, ip) {
     return foundStock;
   }
 }
+
+
+
 /*------------------------------------*/
 /* main driver */
 module.exports = function (app) {
@@ -56,68 +59,51 @@ module.exports = function (app) {
   app.route('/api/stock-prices')
     .get(async function (req, res){
       const { stock, like } = req.query;
-      console.log(stock, like);
+      // console.log("From req.body: ",stock, like);
       const ip = req.ip;
-      
-      // console.log(type(like));
-      // console.log(type(ip));
+
+      /* two symbols query */
       if (Array.isArray(stock)) {
         /* Compare likes between two stock symbols */
-        console.log("AHHHHHHH   RAYYYYYY");
         let stockData = [];
         const { symbol, latestPrice } = await fetchStock(stock[0]);
         const { symbol: symbolx, latestPrice: latestPricex } = await fetchStock(stock[1]);
 
         const record = await saveStock(stock[0], like, ip);
         const recordx = await saveStock(stock[1], like, ip);
-        
-        // let stockData = [];
+
         if (!symbol) {
           stockData.push({
-            symbol : '',
-            price : 0,
             rel_likes : record.likes.length - recordx.likes.length,
           });
         } else {
           stockData.push({
-            stock : symbol.toString(),
-            price : parseInt(latestPrice),
+            stock : symbol,
+            price : parseFloat(latestPrice,2),
             rel_likes : record.likes.length - recordx.likes.length,
           });
         }
 
         if (!symbolx) {
           stockData.push({
-            symbol : '',
-            price : 0,
             rel_likes : recordx.likes.length - record.likes.length,
           });
         } else {
           stockData.push({
-            stock : symbolx.toString(),
-            price : parseInt(latestPricex),
+            stock : symbolx,
+            price : parseFloat(latestPricex,2),
             rel_likes : recordx.likes.length - record.likes.length,
           });
         }
-        res.json({
-          stockData});
+        
+        res.json({ stockData });
         return;
       }
-      // if (Array.isArray(stock)) {
-      //   const stockData = [];
-      //   for (let i = 0; i < stock.length; i++) {
-      //     const stockRecord = await fetchStock(stock[i]);
-      //     stockData.push(stockRecord);
-      //   }
-      //   console.log(stockData);
-      //   res.json({stockData});
-      // }
 
-
+      /* single or none stock symbol query */
       try {
         const { symbol, latestPrice } = await fetchStock(stock);
-      
-        console.log("stock:", stock, " Symbol: ", symbol, " Price: ", latestPrice);
+        // console.log("stock:", stock, " Symbol: ", symbol, " Price: ", latestPrice);
 
         if (!symbol) {
           res.json({ 
@@ -130,7 +116,6 @@ module.exports = function (app) {
           return;
         }
 
-
         /* valid data? let's save */
         try {
           const aStockData = await saveStock(symbol, like, req.ip);
@@ -139,14 +124,16 @@ module.exports = function (app) {
 
           /* return GET */
           res.json({
-            stock : symbol.toString(),
-            price : parseInt(latestPrice),
-            likes : parseInt(aStockData.likes.length),
+            stockData: {
+              stock : symbol.toString(),
+              price : parseInt(latestPrice),
+              likes : parseInt(aStockData.likes.length),
+            }
           })
         } catch(err) { console.log(err); }
 
       } catch(err) {
         console.log(err)
       }
-    });  
+    });
 };
