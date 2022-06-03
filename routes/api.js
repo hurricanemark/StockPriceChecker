@@ -126,7 +126,7 @@ module.exports = function (app) {
           res.json({
             stockData: {
               stock : symbol.toString(),
-              price : parseInt(latestPrice),
+              price : parseFloat(latestPrice, 2),
               likes : parseInt(aStockData.likes.length),
             }
           })
