@@ -26,5 +26,12 @@ Running Tests...
   4 passing (2s)
 ```
 
+**FCC tests**
 
 ![passed 5](./public/stockCheckerTestResults.PNG)
+
+
+**MongoDB Data**
+
+![Mongoose](./public/MongooseStockData.PNG)
+
