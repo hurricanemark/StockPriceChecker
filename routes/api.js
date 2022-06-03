@@ -1,8 +1,8 @@
 'use strict';
 
 const StockModel = require('../models').Stock;
-//import fetch from 'node-fetch';
-//const fetch = require("node-fetch");
+
+const anonymize = (...args) => import('ip-anonymize').then(({default: anonymize}) => anonymize(...args));
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 // const { stock, like } = req.query;
@@ -60,7 +60,7 @@ module.exports = function (app) {
     .get(async function (req, res){
       const { stock, like } = req.query;
       // console.log("From req.body: ",stock, like);
-      const ip = req.ip;
+      const ip = anonymize(req.ip, 16, 16);
 
       /* two symbols query */
       if (Array.isArray(stock)) {

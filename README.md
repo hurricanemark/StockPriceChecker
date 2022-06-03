@@ -25,3 +25,6 @@ Running Tests...
 
   4 passing (2s)
 ```
+
+
+![passed 5](./public/stockCheckerTestResults.PNG)
