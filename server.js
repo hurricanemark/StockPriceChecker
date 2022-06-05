@@ -11,7 +11,7 @@ const runner            = require('./test-runner');
 const app = express();
 
 const mongoose = require('mongoose');
-const db = mongoose.connect(process.env.MONGO_URI, {
+const db = mongoose.connect(process.env.DB, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
@@ -37,8 +37,8 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", 'trusted-cdn.com'],
-      styleSrc: ["'self'", 'trusted-cdn.com'],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'"],
     },
   },
  
