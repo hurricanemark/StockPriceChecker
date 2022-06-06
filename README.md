@@ -20,9 +20,7 @@ npm init -y && npm i --save-dev node@15 && npm config set prefix=$(pwd)/node_mod
 > boilerplate-project-stockchecker@0.0.1 start /home/runner/boilerplate-project-stockchecker
 > node server.js
 
-mongodb+srv://hurricanemark:markn123%24@cluster0.brf1j.mongodb.net/stockchecker?
 Your app is listening on port 1234
-test
 Running Tests...
 MongoDB Connected 🍕
 

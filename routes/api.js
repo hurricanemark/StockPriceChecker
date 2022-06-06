@@ -1,12 +1,20 @@
 'use strict';
 
-const StockModel = require('../models').Stock;
+
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
+const StockSchema = new Schema ({
+  symbol : { type:String, required : true},
+  likes : { type: Array, default : []}
+});
+
+const StockModel = mongoose.model("Stock", StockSchema);
 
 const anonymize = (...args) => import('ip-anonymize').then(({default: anonymize}) => anonymize(...args));
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
-// const { stock, like } = req.query;
-//const URI = "https://stock-price-checker-proxy.freecodecamp.rocks/v1/stock/${stock}/quote";
+
 
 async function fetchStock(stock) {
   const URI = `https://stock-price-checker-proxy.freecodecamp.rocks/v1/stock/${ stock }/quote`;
