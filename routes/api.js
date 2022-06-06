@@ -31,7 +31,7 @@ async function createStock(stock, like, ip) {
 async function findStock(stock) {
   try {
     return await StockModel.findOne({ symbol: stock }).exec();
-  } catch(err) { console.log(err); }
+  } catch(err) { console.log("findOne ERROR: {}".format(err)); }
 }
 
 async function saveStock(stock, like, ip) {

@@ -58,5 +58,17 @@ suite('Functional Tests', function() {
                 done();
             });
         });
+        test('2 stocks and liking them', function(done){
+            chai.request(server)
+            .get('/api/stock-prices')
+            .query({stock: ['tsla','nvda'], like: true})
+            .end(function(err, res){
+              assert.equal(res.status, 200);
+              //assert.equal(res.body.stockData.likes, 1);
+              assert.property(res.body.stockData[0], 'price');
+              assert.property(res.body.stockData[0], 'rel_likes');
+              done();
+            })
+        })        
     });
 });
