@@ -2,6 +2,13 @@
 
 This is the boilerplate for the Stock Price Checker project. Instructions for building your project can be found at https://freecodecamp.org/learn/information-security/information-security-projects/stock-price-checker
 
+## Upgrade nodejs to 15.14.0
+
+This project requires nodejs 15 to resolce ES6 import issue.  Run the command below.
+
+```
+npm init -y && npm i --save-dev node@15 && npm config set prefix=$(pwd)/node_modules/node && export PATH=$(pwd)/node_modules/node/bin:$PATH
+```
 
 ## Test Results
 
