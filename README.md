@@ -2,6 +2,16 @@
 
 Instructions for building your project can be found at [Information Security Projects -- Stock Price Checker](https://freecodecamp.org/learn/information-security/information-security-projects/stock-price-checker)
 
+
+This project has a standard layout initialized by command **npm init -y**
+One should look at *package.json* for top down information.
+
+Backend: The *server.js* drives the backend service logics in */routes/api.js*
+The remaining code in */tests/* is dedicated to testing.
+
+Frontend: The front-end code is in */views/index.html*  and */public/script.js*
+
+
 ## Upgrade nodejs to 15.14.0
 
 This project requires nodejs 15 to resolve ES6 import issue.  Run the command below.
