@@ -4,7 +4,7 @@ Instructions for building your project can be found at [Information Security Pro
 
 ## Upgrade nodejs to 15.14.0
 
-This project requires nodejs 15 to resolce ES6 import issue.  Run the command below.
+This project requires nodejs 15 to resolve ES6 import issue.  Run the command below.
 
 ```
 npm init -y && npm i --save-dev node@15 && npm config set prefix=$(pwd)/node_modules/node && export PATH=$(pwd)/node_modules/node/bin:$PATH
@@ -12,11 +12,23 @@ npm init -y && npm i --save-dev node@15 && npm config set prefix=$(pwd)/node_mod
 
 Declare identifier as follow to resolve ES6 error message '... import outside of module...'
 
-'''
+```
 const anonymize = (...args) => import('ip-anonymize').then(({default: anonymize}) => anonymize(...args));
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-'''
+```
 
+
+## Exercution
+
+```
+npm install
+
+npm start
+
+**or**
+
+npm dev
+```
 
 ## Test Results
 
