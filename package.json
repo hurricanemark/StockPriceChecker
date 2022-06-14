@@ -2,9 +2,9 @@
   "name": "@hurricanemark/stockpricechecker",
   "version": "0.0.1",
   "description": "InfoSec project for freeCodeCamp",
-  "homepage": "https://github.com/hurricanemark/stockpricechecker#readme",
-  "author": "Mark Hurrican",
-  "main": "assertion-analyser.js",
+  "homepage": "https://github.com/hurricanemark/StockPriceChecker#readme",
+  "author": "Mark Hurricane",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/freeCodeCamp/boilerplate-project-stockchecker.git"
+    "url": "git+https://github.com/hurricanemark/StockPriceChecker.git"
   },
   "keywords": [
     "node",
