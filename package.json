@@ -41,5 +41,9 @@
     "helmet": "^3.23.3",
     "node": "^15.14.0"
   },
-  "author": "Mark Nguyen"
+  "author": "Mark Nguyen",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  }
 }
