@@ -32,9 +32,7 @@
     "node",
     "express"
   ],
-  "bugs": {
-    "url": "https://github.com/freeCodeCamp/boilerplate-project-stockchecker/issues"
-  },
+
   "directories": {
     "test": "tests"
   },
