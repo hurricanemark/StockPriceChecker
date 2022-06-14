@@ -7,7 +7,8 @@ This project has a standard layout initialized by command **npm init -y**
 One should look at *package.json* for top down information.
 
 Backend: The *server.js* drives the backend service logics in */routes/api.js*
-The remaining code in */tests/* is dedicated to testing.
+MongoDB is implemented as the event driven database.  You must set your own MongoDB connection string in *dotenv* to enable data storage logic.
+The remaining code in */tests/* is dedicated to testing.  Set identifier NODE_ENV in *dotenv* to *test*.
 
 Frontend: The front-end code is in */views/index.html*  and */public/script.js*
 
