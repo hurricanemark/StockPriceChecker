@@ -6,6 +6,7 @@
   "author": "Mark Hurricane",
   "main": "server.js",
   "license": "MIT",
+  "packagename": "@hurricanemark/StockPriceChecker",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
@@ -42,6 +43,6 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://npm.pkg.github.com/hurricanemark"
+    "@hurricanemark:registry": "https://npm.pkg.github.com"
   }
 }
