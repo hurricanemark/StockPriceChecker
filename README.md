@@ -12,6 +12,8 @@ The remaining code in */tests/* is dedicated to testing.  Set identifier NODE_EN
 
 Frontend: The front-end code is in */views/index.html*  and */public/script.js*
 
+Note:
+Data source is fetched from an API proxy setup by freecodecamp.  i.e. Not real life stock data!!!   Simply replace the fetching URI with access token from your stock market API provider.
 
 ## Upgrade nodejs to 15.14.0
 
